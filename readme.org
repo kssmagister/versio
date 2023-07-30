@@ -3,5 +3,4 @@
 - Die deutschen Sätze, das Vokabular und die lateinischen Übersetzungen müssen in einer Excel-Datei hinterlegt sein. Diese wird dann in die Streamlit-App hochgeladen.
   [[file:readme.org_20230730_175149_Pm2DGE.png]]
 * Kommentare
-- <2023-07-30 So>: Die App funktioniert noch nicht, wie ich es will. Cf. Chatverlauf unter https://chat.openai.com/share/21c1f193-eea8-4047-89d4-a9ce4b0c0b58.
 - <2023-07-30 So>: Das Layout ist noch nicht ideal.
