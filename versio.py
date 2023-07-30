@@ -40,6 +40,7 @@ def check_inputs(index, subj, praed, akkobj, datobj, adv):
                   adv.strip() == correct_adv)
 
     return is_correct
+
 # Streamlit app
 def main():
     global data
