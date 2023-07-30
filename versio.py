@@ -47,6 +47,8 @@ def main():
 
     st.title("VERSIO")
 
+    st.markdown("VERSIO is an app designed for analyzing basic German sentence structures and translating them into Latin.")
+
     # Add text and links to the sidebar
     st.sidebar.markdown("#### Additional Information")
     st.sidebar.markdown("1. [Vorlage der Excel-Datei](https://www.dropbox.com/scl/fi/ddjqy3hddilau3098ps10/pensum2.xlsx?rlkey=bt04i9fnefegouqlbic76nb68&dl=0)")
