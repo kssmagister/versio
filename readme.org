@@ -1,0 +1,2 @@
+* Kommentare
+- <2023-07-30 So>: Die App funktioniert noch nicht, wie ich es will. Cf. Chatverlauf unter https://chat.openai.com/share/21c1f193-eea8-4047-89d4-a9ce4b0c0b58.
