@@ -12,5 +12,5 @@
 * TRANSFER
 - TRANSFER iste iene App für das Übersetzen *einfacher* lateinischer Sätze ins Deutsche.
 - Die lateinischen Sätze, das Vokabular und die deutschen Übersetzungen müssen in einer Excel-Datei (z.B. =transfer.xslx=) hinterlegt sein. Diese wird dann in =transfer.html= hochgeladen.
-- http://kss-latein.info/verte.html
+- http://kss-latein.info/transfer.html
 [[file:transfer.png]]
