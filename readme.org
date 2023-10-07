@@ -6,6 +6,6 @@
 * VERTE
 - VERTE ist eine App für das Übersetzen deutscher Sätze ins Lateinische.
 - Im Unterschied zu VERSIO gib es nur ein Eingabefeld.
-- Die deutschen Sätze, das Vokabular und die lateinischen Übersetzungen müssen in einer Excel-Datei hinterlegt sein. Diese wird dann in die Streamlit-App hochgeladen.
+- Die deutschen Sätze, das Vokabular und die lateinischen Übersetzungen müssen in einer Excel-Datei hinterlegt sein. Diese wird dann in =verte.html= hochgeladen.
 - http://kss-latein.info/verte.html
   [[file:verte.png]]
