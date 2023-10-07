@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>TRANSFER!</title>
+	<link rel="icon" type="image/x-icon" href="favicon_T.ico">
+	<!-- Bootstrap CSS -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Bootstrap Font Icon CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+	<!-- xlsx Bibliothek -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
+	<style>
+         /* Styling für das div mit der Klassen mb-3 und mt-5 */
+         .mb-3, .mt-5 {
+             background-color: #FFFAF0; /* hellgrau */
+             padding: 20px; /* Etwas Abstand hinzufügen, um den Inhalt vom Rand des Hintergrunds zu trennen */
+             border-radius: 5px; /* Etwas abgerundete Ecken für ein besseres Aussehen */
+         }
+         .modal-lg {
+             max-width: 90%;
+         }
+	</style>
+    </head>
+    <body>
+
+	<div class="container mt-5">
+	    <!-- Überschrift -->
+	    <h1><i class="bi-caret-right"></i> TRANSFER! - Übersetze ins Deutsche</h1>
+	    <hr>
+	    <!-- 1. Upload einer Excel-Datei -->
+	    <div class="mb-3">
+		<input type="file" id="upload" accept=".xlsx" class="form-control-file">
+	    </div>
+	    <hr>
+	    <div class="alert alert-warning" role="alert">Präpositionalausdrücke müssen ausgeschrieben werden (= von dem Tempel). Sie dürfen nicht abgekürzt (= vom Tempel) werden.</div>
+	    <!-- 2. Anzeige von Satz und Vokabular -->
+	    <div id="content" class="mb-3">
+		<p id="sentence" class="font-weight-bold"></p>
+		<p id="vocabulary" class="font-italic"></p>
+		<!-- 3. Eingabeaufforderung für den Benutzer -->
+		<div class="input-group mb-3">
+		    <div class="input-group-prepend">
+			<span class="input-group-text">Übersetze:</span>
+		    </div>
+		    <input type="text" id="user_translation" class="form-control">
+		    <div class="input-group-append">
+			<button onclick="checkTranslation()" class="btn btn-primary">Überprüfe!</button>
+		    </div>
+		</div>
+		
+		<!-- Anzeige von Feedback -->
+		<p id="feedback" class="text-danger"></p>
+	    </div>
+	</div>
+
+
+	<!-- Optional: Bootstrap JavaScript and jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<!-- JavaScript-Teil -->
+	<script>
+	 // Benötigte Variablen
+	 let data;
+	 let currentId;
+	 let usedIds = [];
+
+	 const stoplist_vok = new Set(["am", "beim", "im", "vom", "zum", "der", "die", "das", "des", "dem", "den", "ein", "einer", "eine", "eines", "einem", "einen"]);
+
+	// 1. Upload einer Excel-Datei und Parsen mit xlsx
+        document.getElementById('upload').addEventListener('change', function(event){
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const data = e.target.result;
+                const workbook = XLSX.read(data, {type: 'binary'});
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                handleData(jsonData);
+            };
+            reader.readAsBinaryString(event.target.files[0]);
+        });
+
+	 function handleData(jsonData) {
+             data = jsonData;
+
+        // Sortiere die Vokabeln alphabetisch
+             data.forEach(item => {
+		 item.vocabulary = item.vocabulary.split(', ').sort((a, b) => a.localeCompare(b, 'de', { sensitivity: 'base' })).join(', ');
+             });
+
+             selectRandomId();
+	 }
+        // 2. Wähle zufällig eine ID
+        function selectRandomId() {
+            if (data.length === usedIds.length) {
+                // Wenn alle "id" korrekt beantwortet wurden
+                document.getElementById('feedback').textContent = "FERTIG!";
+                return;
+            }
+
+            do {
+                currentId = data[Math.floor(Math.random() * data.length)];
+            } while (usedIds.includes(currentId.id));
+
+            usedIds.push(currentId.id);
+            document.getElementById('sentence').textContent = currentId.sentence;
+            document.getElementById('vocabulary').textContent = currentId.vocabulary;
+        }
+
+        // Event Listener für das Drücken der Enter-Taste in der Input Box
+        document.getElementById('user_translation').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Verhindert das Absenden des Formulars (Standardverhalten)
+                checkTranslation(); // Überprüft die Übersetzung
+            }
+         });
+	 
+
+		 // 4. Vergleiche user_translation mit translation
+	 function checkTranslation() {
+             const userTranslation = document.getElementById('user_translation').value;
+             const correctTranslation = currentId.translation;
+
+             // Entferne die Wörter aus stoplist_vok
+             const userWords = new Set(userTranslation.toLowerCase().replace(/[^a-z\s]/gi, '').split(' ').filter(word => !stoplist_vok.has(word)));
+             const correctWords = new Set(correctTranslation.toLowerCase().replace(/[^a-z\s]/gi, '').split(' ').filter(word => !stoplist_vok.has(word)));
+
+             const incorrectWords = [...userWords].filter(word => !correctWords.has(word));
+
+             if (incorrectWords.length === 0) {
+		 // Zeige die Meldung "Richtig!" an
+		 document.getElementById('feedback').textContent = "Richtig!";
+		 
+		 // Leere das Eingabefeld und zeige einen neuen Satz an
+		 document.getElementById('user_translation').value = '';
+		 selectRandomId();
+             } else {
+		 // 6. Wenn sie nicht übereinstimmen
+		 document.getElementById('feedback').textContent = `Fehler: ${incorrectWords.join(', ')}`;
+             }
+	 }
+</script>
+    </body>
+</html>
+
