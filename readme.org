@@ -1,12 +1,12 @@
 * VERSIO
 - VERSIO ist eine App für die Satzgliedanalyse einfacher deutscher Sätze und anschliessender Übersetzung ins Lateinische.
-- Die deutschen Sätze, das Vokabular und die lateinischen Übersetzungen müssen in einer Excel-Datei (z.B. =pensumLatInt-2.xlsx=) hinterlegt sein. Diese wird dann in die Streamlit-App hochgeladen.
+- Die deutschen Sätze, das Vokabular und die lateinischen Übersetzungen müssen in einer Excel-Datei (z.B. =pensum2.xlsx= oder =pensumLatInt-2.xlsx=) hinterlegt sein. Diese wird dann in die Streamlit-App hochgeladen.
 - https://versio-vertegit-9kmow2rkde7fzcwn9mcs74.streamlit.app/
   [[file:versio.png]]
 * VERTE
 - VERTE ist eine App für das Übersetzen deutscher Sätze ins Lateinische.
 - Im Unterschied zu VERSIO gib es nur ein Eingabefeld.
-- Die deutschen Sätze, das Vokabular und die lateinischen Übersetzungen müssen in einer Excel-Datei (z.B. =pensum2.xslx=) hinterlegt sein. Diese wird dann in =verte.html= hochgeladen.
+- Die deutschen Sätze, das Vokabular und die lateinischen Übersetzungen müssen in einer Excel-Datei (z.B. =exercise.xslx=) hinterlegt sein. Diese wird dann in =verte.html= hochgeladen.
 - http://kss-latein.info/verte.html
   [[file:verte.png]]
 * TRANSFER
